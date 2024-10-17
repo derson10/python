@@ -15,9 +15,12 @@ saldo = 0
 
 limite_diario = 500
 
+meu_limite = 500
+
 saques_realizados = 0
 
 meu_extrato = ""
+
 
 LIMITE_SAQUES = 3
 
@@ -40,25 +43,32 @@ def realiza_saque(valor_saque):
     global saldo
     global limite_diario
     global LIMITE_SAQUES
+    global meu_limite 
     
     if LIMITE_SAQUES == 0:
         print("ATENÇÃO!!! Você ultrapassou a quantidade de saques diário!")
         return False
     
     if limite_diario == 0:
-        print("ATENÇÃO!!! Você ultrapassou o seu limite de saque!")
+        print("ATENÇÃO!!! Você ultrapassou o seu limite de saque diário!")
         return False
-
+    
+    if valor_saque > meu_limite:
+        print("ATENÇÃO!!! O valor do saque excedido!")
+        return False
+    
+    if valor_saque <= 0:
+        print("Valor de saque inválido. Por favor, insira um valor positivo.")
+        return False
+    
     if valor_saque > 0 and valor_saque <= saldo and valor_saque <= limite_diario:
         LIMITE_SAQUES -= 1
         saldo -= valor_saque
         limite_diario -= valor_saque
         grava_extrato("Saque   ", valor_saque)
-
         print("Saque Realizado com Sucesso!")
     else:
         print("Saldo Indisponível!")
-
 
 #Função que grava todas as movimentações realizadas na conta bancária 
 def grava_extrato(tipo_operacao, valor_operacao):
